@@ -40,7 +40,21 @@ namespace ClassroomService.MessageBusSubscriber
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             stoppingToken.ThrowIfCancellationRequested();
-            ConfigureQueue("university_building_exchange", "add_route", AddProcessCallback);
+            ConfigureQueue("university_building_exchange", "add_route", async (string msg) => 
+            { 
+                var dto = JsonSerializer.Deserialize<BuildingCreateDto>(msg);
+                await _eventProcessor.ProcessCreateEvent(dto);
+            });
+            ConfigureQueue("university_building_exchange", "update_route", async (string msg) =>
+            {
+                var dto = JsonSerializer.Deserialize<BuildingUpdateDto>(msg);
+                await _eventProcessor.ProcessUpdateEvent(dto);
+            });
+            ConfigureQueue("university_building_exchange", "delete_route", async (string msg) =>
+            {
+                var dto = JsonSerializer.Deserialize<Guid>(msg);
+                await _eventProcessor.ProcessDeleteEvent(dto);
+            });
             return Task.CompletedTask;
         }
         private void ConfigureQueue(string exchangeName, string route, Func<string, Task> callback)
@@ -59,11 +73,6 @@ namespace ClassroomService.MessageBusSubscriber
             _channel.BasicConsume(queue: queueName,
                                   autoAck: true,
                                   consumer: consumer);
-        }
-        private async Task AddProcessCallback(string msg)
-        {
-            var dto = JsonSerializer.Deserialize<BuildingCreateDto>(msg);
-            await _eventProcessor.ProcessCreateEvent(dto);
-        }
+        }       
     }
 }

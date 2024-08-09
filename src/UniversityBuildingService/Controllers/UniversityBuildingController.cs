@@ -14,13 +14,13 @@ namespace UniversityBuildingService.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUniversityBuildingRepository _repository;
-        private readonly IMessageBusClient _messageSender;
+        private readonly IMessageBusClient _messageBusClient;
         public UniversityBuildingController(IMapper mapper, IUniversityBuildingRepository repository,
-            IMessageBusClient messageSender)
+            IMessageBusClient messageBusClient)
         {
             _mapper = mapper;
             _repository = repository;
-            _messageSender = messageSender;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet]
@@ -44,7 +44,8 @@ namespace UniversityBuildingService.Controllers
                 var building = _mapper.Map<UniversityBuilding>(dto);
                 building = await _repository.Add(building);
                 await _repository.SaveShanges();
-                _messageSender.SendMessage("university_building_exchange", "add_route", building);
+                _messageBusClient.SendMessage("university_building_exchange", "add_route", 
+                    new { Id = building.Id, Name = building.Name });
                 return Ok(_mapper.Map<BuildingReadDto>(building));
             }
             catch(Exception ex)
@@ -62,6 +63,8 @@ namespace UniversityBuildingService.Controllers
                 var building = _mapper.Map<UniversityBuilding>(dto);
                 _repository.Update(building);
                 await _repository.SaveShanges();
+                _messageBusClient.SendMessage("university_building_exchange", 
+                    "update_route", dto);
                 return Ok();
             }            
             catch(Exception ex)
@@ -82,6 +85,8 @@ namespace UniversityBuildingService.Controllers
                 }
                 _repository.Delete(entity);
                 await _repository.SaveShanges();
+                _messageBusClient.SendMessage("university_building_exchange",
+                    "delete_route", id);
                 return Ok();
             }
             catch(Exception ex)

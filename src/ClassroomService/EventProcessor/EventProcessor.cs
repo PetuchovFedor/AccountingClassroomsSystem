@@ -21,18 +21,28 @@ namespace ClassroomService.EventProcessor
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                 await unitOfWork.BuildingRepository.Add(_mapper.Map<UniversityBuilding>(dto));
                 await unitOfWork.SaveChanges();
+            }            
+        }
+
+        public async Task ProcessDeleteEvent(Guid id)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var entity = await unitOfWork.BuildingRepository.GetById(id);
+                unitOfWork.BuildingRepository.Delete(entity);
+                await unitOfWork.SaveChanges();
             }
-            //throw new NotImplementedException();
         }
 
-        public Task ProcessDeleteEvent(Guid id)
+        public async Task ProcessUpdateEvent(BuildingUpdateDto dto)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task ProcessUpdateEvent(BuildingUpdateDto dto)
-        {
-            throw new NotImplementedException();
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                unitOfWork.BuildingRepository.Update(_mapper.Map<UniversityBuilding>(dto));
+                await unitOfWork.SaveChanges();
+            }
         }
     }
 }
