@@ -1,0 +1,17 @@
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: aliceblue;
+    padding: 26px;
+    border-radius: 9px;
+    margin-bottom: 34px;
+}
+
+.block__title {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.block__button {
+    margin-top: 8px;
+}

@@ -1,0 +1,12 @@
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: aliceblue;
+    padding: 26px;
+    border-radius: 9px;
+}
+
+.block__button {
+    margin-top: 13px;
+}

@@ -7,6 +7,6 @@
         public int Number { get; set; }
         public int Floor { get; set; }
         public Guid ClassroomTypeId { get; set; }
-        public Guid UniversityBuildingId { get; set; }
+        public Guid UniversityBuildingId { get; set; }        
     }
 }

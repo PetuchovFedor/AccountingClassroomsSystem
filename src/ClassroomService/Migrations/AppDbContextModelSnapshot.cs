@@ -22,6 +22,31 @@ namespace ClassroomService.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ClassroomService.Models.AdditionalField", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("DataType")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("data_type");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("additional_field", (string)null);
+                });
+
             modelBuilder.Entity("ClassroomService.Models.Classroom", b =>
                 {
                     b.Property<Guid>("Id")
@@ -63,6 +88,28 @@ namespace ClassroomService.Migrations
                     b.HasIndex("UniversityBuildingId");
 
                     b.ToTable("classroom", (string)null);
+                });
+
+            modelBuilder.Entity("ClassroomService.Models.ClassroomHasAdditionalField", b =>
+                {
+                    b.Property<Guid>("AdditionalFieldId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("additional_field_id");
+
+                    b.Property<Guid>("ClassroomId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("classroom_id");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
+                    b.HasKey("AdditionalFieldId", "ClassroomId");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("classroom_has_additional_field", (string)null);
                 });
 
             modelBuilder.Entity("ClassroomService.Models.ClassroomType", b =>
@@ -119,6 +166,35 @@ namespace ClassroomService.Migrations
                     b.Navigation("ClassroomType");
 
                     b.Navigation("UniversityBuilding");
+                });
+
+            modelBuilder.Entity("ClassroomService.Models.ClassroomHasAdditionalField", b =>
+                {
+                    b.HasOne("ClassroomService.Models.AdditionalField", "AdditionalField")
+                        .WithMany("AdditionalFieldHasClassrooms")
+                        .HasForeignKey("AdditionalFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassroomService.Models.Classroom", "Classroom")
+                        .WithMany("ClassroomHasAdditionalFields")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AdditionalField");
+
+                    b.Navigation("Classroom");
+                });
+
+            modelBuilder.Entity("ClassroomService.Models.AdditionalField", b =>
+                {
+                    b.Navigation("AdditionalFieldHasClassrooms");
+                });
+
+            modelBuilder.Entity("ClassroomService.Models.Classroom", b =>
+                {
+                    b.Navigation("ClassroomHasAdditionalFields");
                 });
 
             modelBuilder.Entity("ClassroomService.Models.ClassroomType", b =>

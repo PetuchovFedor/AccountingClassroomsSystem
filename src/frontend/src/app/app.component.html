@@ -1,0 +1,18 @@
+<header class="header">
+  <p class="header__paragraph">Система учёта аудиторного фонда вуза</p>
+  <div class="header__menu">
+    <button kendoButton size="medium" themeColor="info" [toggleable]="false" 
+      (click)="clickOnMainButton()" class="menu__button">
+      Главная
+    </button>
+    <button kendoButton size="medium" themeColor="info" [toggleable]="false" 
+      (click)="clickOnBuildingButton()" class="menu__button">
+      Корпуса
+    </button>
+    <button kendoButton size="medium" themeColor="info" [toggleable]="false" 
+      (click)="clickOnClassroomButton()" class="menu__button"> 
+      Аудитории
+    </button>
+  </div>
+</header>
+<router-outlet></router-outlet>

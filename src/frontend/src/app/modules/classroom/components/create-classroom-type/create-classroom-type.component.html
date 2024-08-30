@@ -1,0 +1,15 @@
+<div class="block">    
+    <kendo-formfield>
+        <kendo-label
+            [for]="create_input"
+            text="Введите название нового типа аудитории">
+        </kendo-label>
+        <kendo-textbox
+            #create_input
+            [(ngModel)]="newClassroomType">
+        </kendo-textbox>
+        <kendo-formhint></kendo-formhint>
+        <kendo-formerror></kendo-formerror>
+    </kendo-formfield>    
+    <button kendoButton size="medium" themeColor="info" (click)="onClick()">Создать</button>
+</div>

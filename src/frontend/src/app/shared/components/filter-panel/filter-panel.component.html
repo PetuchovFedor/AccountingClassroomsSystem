@@ -1,0 +1,44 @@
+<div class="panel">
+    <p class="panel__title">{{props.title}}</p>
+    <div class="panel__multiselect">
+        <kendo-label 
+        for="{{props.id}}"
+        text="{{props.label}}">            
+        </kendo-label>
+        <kendo-multiselect 
+            [id]="props.id"       
+            [data]="data"
+            [(ngModel)] = "selectedValues"
+            [ngStyle] = "props.style"
+            textField="name"
+            (valueChange)="onChange()"
+            (removeTag)="onRemove($event)"
+            valueField="id">
+        </kendo-multiselect>
+    </div>    
+    @if (props.handleFormControls !== undefined) {        
+        <form [formGroup]="filterForm">
+            @for (item of selectedValues; track item.id) {
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="item.name"
+                        text="{{item.name}}">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName = {{item.name}}
+                        id={{item.name}}>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Ошибка валидации</kendo-formerror>
+                </kendo-formfield>
+            }
+        </form>
+    }
+    <div class="panel__button-block">
+        <button kendoButton size="medium" themeColor="info"
+        (click)="onApply()">Применить</button>
+        <button kendoButton size="medium" themeColor="info"
+        (click)="onCancel()">Отменить</button>   
+    </div>
+           
+</div>

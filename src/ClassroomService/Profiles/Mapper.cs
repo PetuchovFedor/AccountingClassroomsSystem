@@ -16,7 +16,9 @@ namespace ClassroomService.Profiles
             CreateMap<ClassroomType, ClassroomTypeReadDto>();
             CreateMap<BuildingCreateDto, UniversityBuilding>();
             CreateMap<BuildingUpdateDto, UniversityBuilding>();
-
+            CreateMap<UniversityBuilding, BuildingReadDto>();
+            CreateMap<AdditionalField, AdditioanalFieldReadDto>();
+            CreateMap<AdditioanalFieldCreateDto, AdditionalField>();
         }
     }
 }

@@ -1,0 +1,22 @@
+<div class="list">
+    <kendo-label
+        text={{props.label}}
+        for={{props.id}}>        
+    </kendo-label>
+    <kendo-dropdownlist       
+    id={{props.id}}
+    [data]="data | async"
+    [defaultItem]="props.initValue.id == '' || props.initValue.name == '' ? null : props.initValue"
+    [(ngModel)] = "selectedItem"
+    [ngStyle]="props.style"
+    textField="name"
+    valueField="id"    
+    [size]="props.appearance.size"
+    [rounded]="props.appearance.rounded"
+    [fillMode]="props.appearance.fillMode"
+    (ngModelChange)="onChange()"
+    required
+    >    
+</kendo-dropdownlist>
+</div>
+

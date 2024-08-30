@@ -1,0 +1,51 @@
+<div class="page">
+    <h2 class="page__title">Форма добавления корпуса</h2>
+    <form [formGroup]="createForm" novalidate (submit)="submit()" class="page__form">
+        <kendo-formfield>
+            <kendo-label
+                [for]="name"
+                text="Название корпуса">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="name"
+                #name>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Не указано название корпуса</kendo-formerror>
+        </kendo-formfield>
+        <kendo-formfield>
+            <kendo-label
+                [for]="address"
+                text="Адрес">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="address"
+                #address>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Не указан адрес</kendo-formerror>
+        </kendo-formfield>
+        <kendo-formfield>
+            <kendo-label
+                [for]="floorsCount"
+                text="Этажность">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="floorsCount"
+                #floorsCount>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Некорректное число этажей</kendo-formerror>
+        </kendo-formfield>
+        <button kendoButton
+            type="submit"
+            themeColor="info"
+            size="medium"
+            [toggleable]="false"
+            
+            class="form__button"
+            >
+            Создать
+        </button>
+    </form>
+</div>

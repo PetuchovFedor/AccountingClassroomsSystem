@@ -1,0 +1,95 @@
+<div class="card">
+    <div class="card__text-block">
+        @if (!isEdit) {
+            <p class="text-block__text">{{classroom.name}}</p>
+            <p class="text-block__text">Тип помещения: {{classroom.classroomType.name}}</p>
+            <p class="text-block__text">Корпус: {{classroom.universityBuilding.name}}</p>
+            <p class="text-block__text">Вместимость: {{classroom.capacity}}</p>
+            <p class="text-block__text">Этаж: {{classroom.floor}}</p>
+            <p class="text-block__text">Номер: {{classroom.number}}</p>            
+            @for (item of classroom.additionalFields; track $index) {
+                <p class="text-block__text">{{item[0]}}: {{item[1]}}</p>
+            }
+        }
+        @else {
+            <form [formGroup]="updateForm" novalidate>
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="name"
+                        text="Название аудитории">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="name"
+                        #name>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Не указано названгие аудитории</kendo-formerror>
+                </kendo-formfield>
+                <dropdown-list [props]="classroomTypeProps"></dropdown-list>
+                <dropdown-list [props]="buildingProps"></dropdown-list>                
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="capacity"
+                        text="Вместимость">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="capacity"
+                        #capacity>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Неправильно введена вместимость</kendo-formerror>
+                </kendo-formfield>
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="floor"
+                        text="Этаж">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="floor"
+                        #floor>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Неправильный этаж</kendo-formerror>
+                </kendo-formfield>
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="number"
+                        text="Номер аудитории">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="number"
+                        #number>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Неправильный номер</kendo-formerror>
+                </kendo-formfield>
+                <p>Дополнительные поля</p>
+                @for (field of additionalFields; track $index) {
+                    <kendo-formfield>        
+                        <kendo-label
+                            [for]="field.name"
+                            text={{field.name}}>
+                        </kendo-label>               
+                        <kendo-textbox
+                            id = {{field.name}}
+                            formControlName={{field.name}}
+                            >
+                        </kendo-textbox>
+                        <kendo-formhint></kendo-formhint>
+                        <kendo-formerror></kendo-formerror>
+                    </kendo-formfield>
+                }
+            </form>
+        }
+    </div>
+    <div class="card__button-block">
+        @if (!isEdit) {
+            <button kendoButton [svgIcon]="pencilIcon" size="medium" (click)="setShowEditIcon()"></button>
+            <button kendoButton [svgIcon]="trashIcon" size="medium" (click)="onDelete()"></button>
+        }
+        @else {
+            <button kendoButton [svgIcon]="checkIcon" size="medium" (click)="onUpdate()"></button>
+            <button kendoButton [svgIcon]="cancelIcon" size="medium" (click)="setShowEditIcon()"></button>
+        }
+    </div>
+</div>

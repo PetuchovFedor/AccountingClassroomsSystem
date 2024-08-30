@@ -7,7 +7,8 @@
         public int Capacity { get; set; }
         public int Number { get; set; }
         public int Floor { get; set; }
-        public Guid ClassroomTypeId { get; set; }
-        public Guid UniversityBuildingId { get; set; }        
+        public ClassroomTypeReadDto ClassroomType { get; set; }
+        public BuildingReadDto UniversityBuilding { get; set; } 
+        public Dictionary<string, string> AdditionalFields { get; set; }
     }
 }

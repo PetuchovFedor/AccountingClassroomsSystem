@@ -1,0 +1,23 @@
+.page {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.page__button {
+    width: 200px;
+    margin-bottom: 22px;
+}
+
+.page__main {    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background: aliceblue;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-around;
+    border-radius: 6px;
+    padding: 15px;
+}

@@ -1,0 +1,8 @@
+<div class="page">
+    <button kendoButton size="medium" themeColor="info" class="page__button" (click)="onClick()">Добавить корпус</button>
+    <div class="page__main">
+        @for (item of buildings$ | async; track item.id) {
+            <building-card [building] = item></building-card>
+        }
+    </div>    
+</div>

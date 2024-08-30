@@ -2,6 +2,7 @@
 using ClassroomService.Data.Interfaces;
 using ClassroomService.Dtos;
 using ClassroomService.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,8 @@ namespace ClassroomService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
+
     public class ClassroomTypeController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -28,6 +31,20 @@ namespace ClassroomService.Controllers
                 return NotFound();
             }
             return Ok(_mapper.Map<ClassroomTypeReadDto>(entity));
+        }
+        [HttpGet]
+        [Route("get-all")]
+        public async Task<ActionResult<IEnumerable<ClassroomTypeReadDto>>> GetAll()
+        {
+            try
+            {
+                var types = await _unitOfWork.ClassromTypeRepository.GetAll();
+                return Ok(_mapper.Map<IEnumerable<ClassroomTypeReadDto>>(types)); 
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost]
         [Route("create")]

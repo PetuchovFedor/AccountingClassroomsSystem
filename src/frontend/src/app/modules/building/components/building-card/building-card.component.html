@@ -1,0 +1,60 @@
+<div class="building-card">
+    <div class="building-card__text-block">
+        @if (!isEdit) {
+            <p class="building-card__text">{{building.name}}</p>
+            <p class="building-card__text">Адрес: {{building.address}}</p>
+            <p class="building-card__text">Этажность: {{building.floorsCount}}</p>
+        }
+        @else {
+            <form [formGroup]="updateForm" novalidate>
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="name"
+                        text="Название корпуса">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="name"
+                        #name>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Не указано название корпуса</kendo-formerror>
+                </kendo-formfield>
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="address"
+                        text="Адрес">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="address"
+                        #address>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Не указан адрес</kendo-formerror>
+                </kendo-formfield>
+                <kendo-formfield>
+                    <kendo-label
+                        [for]="floorsCount"
+                        text="Этажность">
+                    </kendo-label>
+                    <kendo-textbox
+                        formControlName="floorsCount"
+                        #floorsCount>
+                    </kendo-textbox>
+                    <kendo-formhint></kendo-formhint>
+                    <kendo-formerror>Некорректное число этажей</kendo-formerror>
+                </kendo-formfield>
+            </form>
+        }
+    </div>
+    <div class="building-card__button-block">
+        @if (!isEdit) {
+            <button kendoButton [svgIcon]="pencilIcon" size="medium" (click)="setShowEditIcon()"></button>
+            <button kendoButton [svgIcon]="trashIcon" size="medium" (click)="onDelete()"></button>
+        }
+        @else {
+            <button kendoButton [svgIcon]="checkIcon" size="medium" (click)="onUpdate()"></button>
+            <button kendoButton [svgIcon]="cancelIcon" size="medium" (click)="setShowEditIcon()"></button>
+        }
+        
+    </div>
+</div>

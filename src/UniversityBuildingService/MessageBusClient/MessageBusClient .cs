@@ -16,6 +16,8 @@ namespace UniversityBuildingService.MessageBusClient
             {
                 HostName = hostName,
                 Port = port,
+                UserName = "guest",
+                Password = "guest"
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
@@ -35,8 +37,7 @@ namespace UniversityBuildingService.MessageBusClient
             _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Topic);
             var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(msg));
             _channel.BasicPublish(exchange: exchangeName,
-                routingKey: routingKey, body: body, basicProperties: null);
-            //throw new NotImplementedException();
+                routingKey: routingKey, body: body, basicProperties: null);            
         }
     }
 }

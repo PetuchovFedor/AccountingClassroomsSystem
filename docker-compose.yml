@@ -1,0 +1,66 @@
+﻿version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    container_name: rabbitmq
+    hostname: "rabbitmq"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+  postgre_db:
+    container_name: postgresdb
+    image: postgres
+    ports:
+      - "54321:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "postgresdb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin"
+  frontend:
+    container_name: AngularClient
+    image: angularfrontend
+    build:
+      context: .
+      dockerfile: src/frontend/Dockerfile
+    restart: on-failure
+    ports:
+      - "4200:4200"
+    depends_on:      
+      - postgre_db
+      - classroom_service
+      - building_service
+  classroom_service:
+    container_name: ClassroomApi
+    image: classroomservice
+    build:
+      context: .
+      dockerfile: src/ClassroomService/Dockerfile
+    restart: on-failure
+    ports:
+      - "5155:5155"
+    depends_on:
+      - rabbitmq
+      - postgre_db
+  building_service:
+    container_name: BuildingApi
+    image: buildingsevice
+    build:
+      context: .
+      dockerfile: src/UniversityBuildingService/Dockerfile
+    ports:
+      - "5286:5286"
+    depends_on:      
+      - classroom_service
+      - postgre_db
+  
+volumes:
+  pg_data:
+  rabbitmq_data:

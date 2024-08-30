@@ -9,5 +9,6 @@
         public int Floor { get; set; }
         public Guid ClassroomTypeId { get; set; }
         public Guid UniversityBuildingId { get; set; }
+        public Dictionary<Guid, string> AdditionalFields { get; set; }
     }
 }

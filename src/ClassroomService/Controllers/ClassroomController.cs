@@ -2,6 +2,8 @@
 using ClassroomService.Data.Interfaces;
 using ClassroomService.Dtos;
 using ClassroomService.Models;
+using ClassroomService.Profiles;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +11,8 @@ namespace ClassroomService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
+
     public class ClassroomController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -18,28 +22,31 @@ namespace ClassroomService.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         [HttpGet]
-        [Route("classroom/{id}")]
-        public async Task<ActionResult<ClassroomReadDto>> GetById(Guid id)
+        [Route("get-all")]
+        public async Task<ActionResult<IEnumerable<ClassroomReadDto>>> GetAll()
         {
-            var entity = await _unitOfWork.ClassroomRepository.GetById(id);
-            if (entity == null)
+            try
             {
-                return NotFound();
+                var result = await _unitOfWork.ClassroomRepository.GetAll();
+                return Ok(result.ToList().ConvertAll(item => item.Map()));
             }
-            return Ok(_mapper.Map<ClassroomReadDto>(entity));
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult<ClassroomReadDto>> Create(ClassroomCreateDto dto)
+        public async Task<ActionResult> Create(ClassroomCreateDto dto)
         {
             try
             {
                 var entity = await _unitOfWork.ClassroomRepository
                     .Add(_mapper.Map<Classroom>(dto));
-                await _unitOfWork.SaveChanges();
-                return Ok(_mapper.Map<ClassroomReadDto>(entity));
-
+                await _unitOfWork.SaveChanges();                
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -62,15 +69,29 @@ namespace ClassroomService.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut]
         [Route("update")]
         public async Task<ActionResult> Update(ClassroomUpdateDto dto)
         {
             try
             {
-                var entity = _mapper.Map<Classroom>(dto);
+                var entity = await _unitOfWork.ClassroomRepository.GetById(dto.Id);
+                entity.Update(dto.Name, dto.Capacity, dto.Number, dto.Floor,
+                    dto.ClassroomTypeId, dto.UniversityBuildingId);
+                List<ClassroomHasAdditionalField> newFields = [];
+                foreach (var item in dto.AdditionalFields)
+                {
+                    newFields.Add(new ClassroomHasAdditionalField
+                    {
+                        Value = item.Value,
+                        AdditionalFieldId = item.Key,
+                        ClassroomId = dto.Id
+                    });
+                }
+                entity.ClassroomHasAdditionalFields = newFields;                
                 _unitOfWork.ClassroomRepository.Update(entity);
-                await _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChanges();                
                 return Ok();
             }
             catch(Exception ex)

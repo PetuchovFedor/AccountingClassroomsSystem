@@ -20,13 +20,12 @@ namespace ClassroomService.MessageBusSubscriber
             {
                 HostName = hostName,
                 Port = port,
+                UserName = "guest",
+                Password = "guest"
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
             _eventProcessor = eventProcessor;
-            //ConfigureQueue("university_building_exchange", "add_route");
-            //ConfigureQueue("university_building_exchange", "add_route");
-
         }
         public override void Dispose()
         {

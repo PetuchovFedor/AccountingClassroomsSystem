@@ -1,0 +1,9 @@
+﻿namespace ClassroomService.Dtos
+{
+    public class AdditioanalFieldReadDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string DataType { get; set; }
+    }
+}

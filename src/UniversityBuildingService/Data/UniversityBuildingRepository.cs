@@ -22,6 +22,11 @@ namespace UniversityBuildingService.Data
             _context.Buildings.Remove(entity);                   
         }
 
+        public async Task<IEnumerable<UniversityBuilding>> GetAll()
+        {
+            return await _context.Buildings.ToListAsync();            
+        }
+
         public async Task<UniversityBuilding> GetById(Guid id)
         {
             var entity = await _context.Buildings.SingleOrDefaultAsync(x => x.Id == id);
@@ -36,8 +41,7 @@ namespace UniversityBuildingService.Data
 
         public async Task SaveShanges()
         {
-            await _context.SaveChangesAsync();
-            //throw new NotImplementedException();
+            await _context.SaveChangesAsync();            
         }
 
         public void Update(UniversityBuilding entity)

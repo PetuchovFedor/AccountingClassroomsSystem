@@ -33,5 +33,10 @@ namespace ClassroomService.Data.Implementations
         {
             _dbSet.Update(entity);
         }
+
+        public virtual async Task<IEnumerable<T>> GetAll()
+        {
+            return await _dbSet.ToListAsync();
+        }
     }
 }

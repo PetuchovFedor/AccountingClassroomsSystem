@@ -1,0 +1,14 @@
+<div class="page">
+    <div class="page__menu">
+        <button kendoButton size="medium" themeColor="info"
+        class="menu__button" (click)="clickOnNewButton()">Добавить аудиторию</button>
+        <button kendoButton size="medium" themeColor="info"
+        class="menu__button" (click)="clickOnManagementButton()">Управление типами аудиторий</button>
+    </div>
+    <filter-panel [props]="filterPanelProps"></filter-panel>
+    <div class="page__main">
+        @for (item of classrooms$ | async; track item.id) {
+            <classroom-card [classroom]="item"></classroom-card>
+        }
+    </div>    
+</div>

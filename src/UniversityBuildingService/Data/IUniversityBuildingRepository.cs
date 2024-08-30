@@ -4,6 +4,7 @@ namespace UniversityBuildingService.Data
 {
     public interface IUniversityBuildingRepository
     {
+        Task<IEnumerable<UniversityBuilding>> GetAll();
         Task<UniversityBuilding> Add(UniversityBuilding entity);
         void Update(UniversityBuilding entity);
         void Delete(UniversityBuilding entity);

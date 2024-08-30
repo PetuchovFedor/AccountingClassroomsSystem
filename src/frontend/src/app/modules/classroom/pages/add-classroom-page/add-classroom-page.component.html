@@ -1,0 +1,65 @@
+<div class="page">
+    <h2 class="page__title">Форма добавления аудитории</h2>
+    <form class="page__form" (submit)="submit()" [formGroup]="createForm" novalidate>
+        <kendo-formfield>
+            <kendo-label
+                [for]="name"
+                text="Название аудитории">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="name"
+                #name>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Не указано названгие аудитории</kendo-formerror>
+        </kendo-formfield>
+        <dropdown-list [props]="classroomTypeProps"></dropdown-list>
+        <dropdown-list [props]="buildingProps"></dropdown-list>                
+        <kendo-formfield>
+            <kendo-label
+                [for]="capacity"
+                text="Вместимость">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="capacity"
+                #capacity>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Неправильно введена вместимость</kendo-formerror>
+        </kendo-formfield>
+        <kendo-formfield>
+            <kendo-label
+                [for]="floor"
+                text="Этаж">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="floor"
+                #floor>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Неправильный этаж</kendo-formerror>
+        </kendo-formfield>
+        <kendo-formfield>
+            <kendo-label
+                [for]="number"
+                text="Номер аудитории">
+            </kendo-label>
+            <kendo-textbox
+                formControlName="number"
+                #number>
+            </kendo-textbox>
+            <kendo-formhint></kendo-formhint>
+            <kendo-formerror>Неправильный номер</kendo-formerror>
+        </kendo-formfield>
+        <button kendoButton
+            type="submit"
+            themeColor="info"
+            size="medium"
+            [toggleable]="false"
+            
+            class="form__button"
+            >
+            Создать
+        </button>
+    </form>
+</div>
