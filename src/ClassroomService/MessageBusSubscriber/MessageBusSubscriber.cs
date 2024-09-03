@@ -59,7 +59,7 @@ namespace ClassroomService.MessageBusSubscriber
         private void ConfigureQueue(string exchangeName, string route, Func<string, Task> callback)
         {
             _channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
-            var queueName = _channel.QueueDeclare().QueueName;
+            var queueName = _channel.QueueDeclare(exclusive: false).QueueName;
             _channel.QueueBind(queueName, exchangeName, route, null);
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += async (model, eventArgs) =>

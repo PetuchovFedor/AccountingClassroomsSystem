@@ -5,6 +5,7 @@ import { DropDownSize,
     DropDownRounded,
     DropDownFillMode, } from "@progress/kendo-angular-dropdowns";
 import { IDropdownListService } from "../../services/dropdown-list.service";
+
 export interface Appearance {
     size: DropDownSize,
     rounded: DropDownRounded,

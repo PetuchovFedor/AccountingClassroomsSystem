@@ -5,9 +5,8 @@ import { DropdownProps} from './interfaces';
 import { FormsModule, ReactiveFormsModule, NgModel } from '@angular/forms';
 import { LabelModule } from "@progress/kendo-angular-label";
 import { Observable, Subscription } from 'rxjs';
-import { AsyncPipe
+import { AsyncPipe } from '@angular/common';
 
- } from '@angular/common';
 @Component({
   selector: 'dropdown-list',
   standalone: true,

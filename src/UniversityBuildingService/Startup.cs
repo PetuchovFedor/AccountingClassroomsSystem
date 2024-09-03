@@ -23,8 +23,7 @@ namespace UniversityBuildingService
             });
             services.AddScoped<IUniversityBuildingRepository, UniversityBuildingRepository>();
             services.AddSingleton<IMessageBusClient, MessageBusClient.MessageBusClient>();
-            services.AddControllers();
-
+            services.AddControllers();            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddCors(options =>
@@ -41,6 +40,11 @@ namespace UniversityBuildingService
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+            }
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();

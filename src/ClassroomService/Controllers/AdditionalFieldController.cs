@@ -38,6 +38,10 @@ namespace ClassroomService.Controllers
         {
             try
             {
+                if (dto.DataType != "string" && dto.DataType != "number" && dto.DataType != "date")
+                {
+                    throw new Exception("Data type should be string, number or date");
+                }
                 await _unitOfWork.AdditionalFieldRepository.Add(_mapper.Map<AdditionalField>(dto));
                 await _unitOfWork.SaveChanges();
                 return Ok();

@@ -13,6 +13,6 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 })
 export class BuildingService extends CRUDService<BuildingReadModel> {
     constructor(httpClient: HttpClient) {
-        super(httpClient, `${environment.classroomServiceApiURl}${environment.buildingApiName}`)    
+        super(httpClient, `${environment.classroomServiceApiURl}${environment.buildingApiName}`)  
     }
 }

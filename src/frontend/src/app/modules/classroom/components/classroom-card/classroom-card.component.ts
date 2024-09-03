@@ -7,7 +7,7 @@ import { trashIcon, pencilIcon, cancelIcon, checkIcon } from '@progress/kendo-sv
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { ClassroomReadModel, ClassroomUpdateModel } from '../../models/classroom.model';
 import { DropdownListComponent } from '../../../../shared/components/dropdown-list/dropdown-list.component';
-import { DropdownProps, tmp1, tmp2 } from '../../../../shared/components/dropdown-list/interfaces';
+import { DropdownProps} from '../../../../shared/components/dropdown-list/interfaces';
 import { ClassroomTypeReadModel } from '../../models/classroomType.model';
 import { BuildingReadModel } from '../../models/building.model';
 import { ClassroomService } from '../../services/classroom.service';

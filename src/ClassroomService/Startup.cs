@@ -22,7 +22,6 @@ namespace ClassroomService
             {
                 options.UseNpgsql(Configuration.GetConnectionString("PostgreSql"));
             });
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddHostedService<MessageBusSubscriber.MessageBusSubscriber>();
@@ -44,6 +43,11 @@ namespace ClassroomService
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+            }
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
